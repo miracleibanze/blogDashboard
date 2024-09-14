@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { hamburgerClose, hamburgerSvg, header, phoneSvg } from './../assets'
+import { hamburgerSvg, header, phoneSvg, xSvg } from './../assets'
 
 
 const NavBar = ({ pages, setPageIndex, setSlideIndex }) => {
@@ -82,7 +82,7 @@ const NavBar = ({ pages, setPageIndex, setSlideIndex }) => {
             </div>
             <button className={`w-12 h-12 z-[9999] hidden ${ click ? 'fixed top-4 cursor-pointer right-8 bg-n-1 hover:rounded-2xl' : ''} max-md:block text-slate-400 transition`} onClick={handleClick}>
               <img 
-              src={!click ? hamburgerSvg : hamburgerClose }
+              src={!click ? hamburgerSvg : xSvg }
               className="w-full h-full"
               />
             </button>

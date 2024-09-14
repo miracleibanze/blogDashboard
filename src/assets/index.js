@@ -57,7 +57,6 @@ import DOD from './images/DOD-profile.jpg';
 import DOS from './images/DOS-profile.png';
 import graduated from './images/graduated-student.png';
 import grid from './images/grid.png';
-import hamburgerClose from './images/hamburgerClose.png';
 import header from './images/header-logo.png';
 import headMaster from './images/headMaster.png';
 import jumping from './images/jumping-graduated-student.png';
@@ -155,7 +154,6 @@ DOS,
 graduated,
 S6Graduates,
 grid,
-hamburgerClose,
 header,
 headMaster,
 jumping,
