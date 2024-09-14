@@ -175,7 +175,7 @@ const App = () => {
 
 
   return (
-    <main className="min-h-screen flex flex-col bg-gradient-to-r from-slate-900 to-black text-white text-sm sm:text-base font-grotesk max-w-screen overflow-x-hidden">
+    <main className="min-h-screen flex flex-col bg-gradient-to-r from-slate-900 to-black text-white text-sm sm:text-base max-w-screen overflow-x-hidden">
       <a href="#page" className={`${upScrollButton ? 'flex' : 'hidden'}`} onClick={() => setUpScrollButton(true)}>
         <div className="lg:flex fixed hidden z-20 bottom-4 right-0 h-16 w-16 items-end cursor-pointer justify-start" >
           <img src={WhiteADoubleRightSvg} alt="close" className="w-16 h-16 -rotate-90 bg-color-1 p-2"  />
