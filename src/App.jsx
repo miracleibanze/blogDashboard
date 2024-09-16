@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import NavBar from "./component/NavBar.jsx";
-import News from "./component/News.jsx";
 import Education from "./component/Education.jsx";
 import Contact from "./component/Contact.jsx";
 import About from "./component/About.jsx";
@@ -26,6 +25,8 @@ import {
   WhiteADoubleRightSvg,
 } from "./assets/index.js";
 import Hero from "./component/Hero.jsx";
+
+const News = lazy(() => import("./component/News.jsx"));
 
 const App = () => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -302,39 +303,41 @@ const App = () => {
         goToIndex={goToIndex}
         slideIndex={slideIndex}
       />
-      <div className={`relative ${pageIndex != 0 ? "hidden" : ""}`}>
-        <Hero
-          courses={courses}
-          setPageIndex={setPageIndex}
-          aboutParagraph={aboutParagraph}
-          setSlideIndex={setSlideIndex}
-          setNewsType={setNewsType}
-          Motto_Vission={Motto_Vission}
-          vission={vission}
-        />
-      </div>
-      <div className={`relative ${pageIndex != 1 ? "hidden" : "block"}`}>
-        <News newsType={newsType} setNewsType={setNewsType} />
-      </div>
-      <div className={`relative ${pageIndex != 2 ? "hidden" : "block"}`}>
-        <Education
-          educationPartIndex={educationPartIndex}
-          setEducationPartIndex={setEducationPartIndex}
-          courses={courses}
-          setPageIndex={setPageIndex}
-        />
-      </div>
-      <div className={`relative ${pageIndex != 3 ? "hidden" : "block"}`}>
-        <About
-          aboutParagraph={aboutParagraph}
-          Motto_Vission={Motto_Vission}
-          vission={vission}
-          setPageIndex={setPageIndex}
-        />
-      </div>
-      <div className={`relative ${pageIndex != 4 ? "hidden" : "block"}`}>
-        <Contact />
-      </div>
+      <Suspense fallback={<div>Loading..</div>}>
+        <div className={`relative ${pageIndex != 0 ? "hidden" : ""}`}>
+          <Hero
+            courses={courses}
+            setPageIndex={setPageIndex}
+            aboutParagraph={aboutParagraph}
+            setSlideIndex={setSlideIndex}
+            setNewsType={setNewsType}
+            Motto_Vission={Motto_Vission}
+            vission={vission}
+          />
+        </div>
+        <div className={`relative ${pageIndex != 1 ? "hidden" : "block"}`}>
+          <News newsType={newsType} setNewsType={setNewsType} />
+        </div>
+        <div className={`relative ${pageIndex != 2 ? "hidden" : "block"}`}>
+          <Education
+            educationPartIndex={educationPartIndex}
+            setEducationPartIndex={setEducationPartIndex}
+            courses={courses}
+            setPageIndex={setPageIndex}
+          />
+        </div>
+        <div className={`relative ${pageIndex != 3 ? "hidden" : "block"}`}>
+          <About
+            aboutParagraph={aboutParagraph}
+            Motto_Vission={Motto_Vission}
+            vission={vission}
+            setPageIndex={setPageIndex}
+          />
+        </div>
+        <div className={`relative ${pageIndex != 4 ? "hidden" : "block"}`}>
+          <Contact />
+        </div>
+      </Suspense>
       <Footer
         courses={courses}
         aboutParagraph={aboutParagraph}
