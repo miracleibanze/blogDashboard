@@ -34,13 +34,13 @@ const Footer = ({
       id: "0",
       name: "Facebook",
       iconUrl: facebookSvg,
-      linkUrl: "https://facebook.com/shema_miracle/",
+      linkUrl: "https://facebook.com/MiracleCode/",
     },
     {
       id: "0",
       name: "LinkedIn",
       iconUrl: linkedInSvg,
-      linkUrl: "www.linkedin.com/in/ibanze-miracle-a203b6270",
+      linkUrl: "https://www.linkedin.com/in/ibanze-miracle-a203b6270",
     },
   ];
 
@@ -137,9 +137,11 @@ const Footer = ({
           <div className="absolute lg:w-1/2 md:w-2/3 w-full py-2 h-[5rem] flex items-center justify-center bg-n-8 top-0 -translate-y-full right-0 gap-8">
             {designerSacials.map((item) => (
               <a href={item.linkUrl}>
-                <div className="flex items-center justify center w-8 h-8 rounded-full">
-                  <img src={item.iconUrl} alt={item.name} className="w-full" />
-                </div>
+                <img
+                  src={item.iconUrl}
+                  alt={item.name}
+                  className="flex items-center justify center w-8 h-8"
+                />
               </a>
             ))}
             <img

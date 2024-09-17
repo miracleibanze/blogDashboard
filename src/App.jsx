@@ -20,7 +20,10 @@ import {
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import NotFound from "./component/NotFound.jsx";
 
-const Header = lazy(() => import("./component/Header.jsx"));
+// Regular import for Header.jsx (No lazy loading)
+import Header from "./component/Header.jsx";
+
+// Lazy load other components
 const News = lazy(() => import("./component/News"));
 const Education = lazy(() => import("./component/Education"));
 const Contact = lazy(() => import("./component/Contact"));
@@ -298,7 +301,13 @@ const App = () => {
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-r from-slate-900 to-black text-white text-sm sm:text-base max-w-screen overflow-x-hidden">
-      <Suspense fallback={() => <h1>Loading ...</h1>}>
+      <Suspense
+        fallback={
+          <h1 className="h-screen flex items-center justify-center">
+            Loading ...
+          </h1>
+        }
+      >
         <Routes>
           <Route
             path="/"
