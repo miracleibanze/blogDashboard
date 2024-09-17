@@ -9,8 +9,19 @@ import {
   WhiteADoubleRightSvg,
 } from "../assets";
 import Button from "./designs/Button";
+import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
 
-const About = ({ aboutParagraph, Motto_Vission, vission, setPageIndex }) => {
+const About = (props) => {
+  const {
+    aboutParagraph,
+    Motto_Vission,
+    vission,
+    setPageIndex,
+    goUp,
+    setEducationPartIndex,
+    navigate,
+  } = props;
   const iframes = [
     {
       title: "Itorero Activities",
@@ -107,6 +118,9 @@ const About = ({ aboutParagraph, Motto_Vission, vission, setPageIndex }) => {
                   top
                   onClick={() => {
                     setPageIndex(2);
+                    setEducationPartIndex(0);
+                    goUp();
+                    navigate("/education");
                   }}
                 >
                   About our Education
@@ -169,10 +183,10 @@ const About = ({ aboutParagraph, Motto_Vission, vission, setPageIndex }) => {
                   </p>
 
                   <p className="body-2 flex items-center text-n-8">
-                    Tel: {item.tel}
+                    Tel: {item.name}
                   </p>
                   <p className="body-2 flex items-center text-n-8">
-                    E-mail: {item.email}
+                    E-mail: {item.name}
                   </p>
 
                   <div className="absolute bg-gradient-to-l from-transparent to-n-8/90 w-1  z-[100] bottom-0 top-0 left-1" />
@@ -183,12 +197,19 @@ const About = ({ aboutParagraph, Motto_Vission, vission, setPageIndex }) => {
           </div>
         </div>
         <div className="w-full flex items-center justify-center mb-8 mt-32">
-          <Button onClick={() => setPageIndex(4)} top>
+          <Button
+            onClick={() => {
+              setPageIndex(4);
+              goUp();
+              navigate("/contact");
+            }}
+          >
             For more details
             <img src={WhiteADoubleRightSvg} className="h-4" />
           </Button>
         </div>
       </Section>
+      <Footer {...props} />
     </>
   );
 };

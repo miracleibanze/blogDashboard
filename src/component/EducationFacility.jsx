@@ -205,10 +205,10 @@ const EducationFacility = ({ className }) => {
                     </span>
                   </div>
                 </a>
-                <a href="#" download='' target="_blank" rel="noopener noreferrer">
+                <a href="#" download={Academics[downloadIndex].EconomicsSylabusLink} target="_blank" rel="noopener noreferrer">
                   <div>
                   <span className="flex items-center gap-2 border-b">
-                      <img src={Academics[downloadIndex].EconomicsSylabusLink} className="w-3" />
+                      <img src={fileDownloadSvg} className="w-3" />
                       Download Sylabus
                     </span>
                   </div>
@@ -273,10 +273,10 @@ const EducationFacility = ({ className }) => {
                     </span>
                   </div>
                 </a>
-                <a href="#" download='' target="_blank" rel="noopener noreferrer">
+                <a href="#" download={Academics[downloadIndex].LiteratureSylabuskLink} target="_blank" rel="noopener noreferrer">
                   <div>
                   <span className="flex items-center gap-2 border-b">
-                      <img src={Academics[downloadIndex].LiteratureSylabuskLink} className="w-3" />
+                      <img src={fileDownloadSvg} className="w-3" />
                       Download Sylabus
                     </span>
                   </div>

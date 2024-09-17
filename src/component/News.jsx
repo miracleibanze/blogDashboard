@@ -1,6 +1,7 @@
 import Section from "./designs/Section";
 import Heading from "./designs/Heading";
 import {
+  assemble,
   grid,
   headMaster,
   schoolBoys,
@@ -9,8 +10,12 @@ import {
 } from "./../assets";
 import Tagline from "./designs/Tagline";
 import NewsPictureHighlight from "./NewsPictureHighlight";
+import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
 
-const News = ({ newsType, setNewsType }) => {
+const News = (props) => {
+  const { newsType, setNewsType } = props;
+
   const newTypeTitle = [
     {
       title: "News & Events",
@@ -47,7 +52,7 @@ const News = ({ newsType, setNewsType }) => {
     {
       Date: "17 December, 2024",
       name: "ITORERO",
-      poster: studentTalk,
+      poster: assemble,
       content: `As student of Rwanda, in Itorero program, where they learn different culture ways of life that was Rwandan tradition.
       On friday assemble in which was assigned to 'Itorero', Student are announced about upcaming event called 'Gushyira intore mu zindi'(Welcoming new students in 'Itorero'),It is Annually activity, students were happy to be announced with that upcoming event.`,
     },
@@ -138,6 +143,7 @@ const News = ({ newsType, setNewsType }) => {
           </div>
         </div>
       </Section>
+      <Footer {...props} />
     </>
   );
 };

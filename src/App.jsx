@@ -1,10 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
-import NavBar from "./component/NavBar.jsx";
-import Education from "./component/Education.jsx";
-import Contact from "./component/Contact.jsx";
-import About from "./component/About.jsx";
-import Carousel from "./component/Carousel.jsx";
-import Footer from "./component/Footer.jsx";
+import React, { lazy, Suspense, useState } from "react";
 import {
   children,
   childSvg,
@@ -22,11 +16,16 @@ import {
   schoolBoys,
   schoolGate,
   usersSvg,
-  WhiteADoubleRightSvg,
 } from "./assets/index.js";
-import Hero from "./component/Hero.jsx";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import NotFound from "./component/NotFound.jsx";
 
-const News = lazy(() => import("./component/News.jsx"));
+const Header = lazy(() => import("./component/Header.jsx"));
+const News = lazy(() => import("./component/News"));
+const Education = lazy(() => import("./component/Education"));
+const Contact = lazy(() => import("./component/Contact"));
+const About = lazy(() => import("./component/About"));
+const Hero = lazy(() => import("./component/Hero.jsx"));
 
 const App = () => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -38,6 +37,17 @@ const App = () => {
   const [newsType, setNewsType] = useState(0);
 
   const [upScrollButton, setUpScrollButton] = useState(false);
+
+  const [isPageStart, setIsPageStart] = useState(true);
+
+  const interact = () => {
+    console.log(isPageStart);
+  };
+
+  window.onclick = () => {
+    interact();
+    setIsPageStart(false);
+  };
 
   const slides = [
     {
@@ -87,7 +97,7 @@ const App = () => {
             </span>
           </p>
         </div>
-        <p className="h5 font-bold">
+        <div className="h5 font-bold">
           Core Values:&nbsp;
           <span className="h6 font-thin">
             <ul>
@@ -96,7 +106,7 @@ const App = () => {
               <li>&#9998;&nbsp;Excellence</li>
             </ul>
           </span>
-        </p>
+        </div>
       </div>
     </>
   );
@@ -128,6 +138,13 @@ const App = () => {
       </div>
     </>
   );
+
+  const goUp = () => {
+    window.scrollTo(top);
+  };
+
+  const navigate = useNavigate();
+
   const aboutParagraph =
     "Mukingi Secondary school is mixed (boys and girls) secondary school for quality education in advanced level and ordinary level, and its academic program is entirely based on Rwandan National Carriculum, also enhancing science and culture.";
 
@@ -137,30 +154,35 @@ const App = () => {
       name: "Home",
       favSlide: 0,
       iconUrl: homeSvg,
+      routerLink: "/",
     },
     {
       id: "1",
       name: "News&Events",
       favSlide: 1,
       iconUrl: newspaperSvg,
+      routerLink: "/news&events",
     },
     {
       id: "2",
       name: "Education",
       favSlide: 2,
       iconUrl: phoneSvg,
+      routerLink: "/education",
     },
     {
       id: "3",
       name: "About",
       favSlide: 3,
       iconUrl: fileSvg,
+      routerLink: "/about",
     },
     {
       id: "4",
       name: "Contact",
       favSlide: 0,
       iconUrl: usersSvg,
+      routerLink: "/contact",
     },
   ];
 
@@ -276,76 +298,115 @@ const App = () => {
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-r from-slate-900 to-black text-white text-sm sm:text-base max-w-screen overflow-x-hidden">
-      <a
-        href="#page"
-        className={`${upScrollButton ? "flex" : "hidden"}`}
-        onClick={() => setUpScrollButton(true)}
-      >
-        <div className="lg:flex fixed hidden z-20 bottom-4 right-0 h-16 w-16 items-end cursor-pointer justify-start">
-          <img
-            src={WhiteADoubleRightSvg}
-            alt="close"
-            className="w-16 h-16 -rotate-90 bg-color-1 p-2"
-          />
-        </div>
-      </a>
-      <NavBar
-        setPageIndex={setPageIndex}
-        setSlideIndex={setSlideIndex}
-        pages={pages}
-      />
-      <Carousel
-        pageIndex={pageIndex}
-        pages={pages}
-        slides={slides}
-        prevSlide={prevSlide}
-        nextSlide={nextSlide}
-        goToIndex={goToIndex}
-        slideIndex={slideIndex}
-      />
-      <Suspense fallback={<div>Loading..</div>}>
-        <div className={`relative ${pageIndex != 0 ? "hidden" : ""}`}>
-          <Hero
-            courses={courses}
-            setPageIndex={setPageIndex}
-            aboutParagraph={aboutParagraph}
-            setSlideIndex={setSlideIndex}
-            setNewsType={setNewsType}
-            Motto_Vission={Motto_Vission}
-            vission={vission}
-          />
-        </div>
-        <div className={`relative ${pageIndex != 1 ? "hidden" : "block"}`}>
-          <News newsType={newsType} setNewsType={setNewsType} />
-        </div>
-        <div className={`relative ${pageIndex != 2 ? "hidden" : "block"}`}>
-          <Education
-            educationPartIndex={educationPartIndex}
-            setEducationPartIndex={setEducationPartIndex}
-            courses={courses}
-            setPageIndex={setPageIndex}
-          />
-        </div>
-        <div className={`relative ${pageIndex != 3 ? "hidden" : "block"}`}>
-          <About
-            aboutParagraph={aboutParagraph}
-            Motto_Vission={Motto_Vission}
-            vission={vission}
-            setPageIndex={setPageIndex}
-          />
-        </div>
-        <div className={`relative ${pageIndex != 4 ? "hidden" : "block"}`}>
-          <Contact />
-        </div>
+      <Suspense fallback={() => <h1>Loading ...</h1>}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Header
+                setPageIndex={setPageIndex}
+                setSlideIndex={setSlideIndex}
+                pages={pages}
+                pageIndex={pageIndex}
+                slides={slides}
+                prevSlide={prevSlide}
+                nextSlide={nextSlide}
+                goToIndex={goToIndex}
+                slideIndex={slideIndex}
+              />
+            }
+          >
+            <Route
+              exact
+              path="/"
+              element={
+                <Hero
+                  courses={courses}
+                  setPageIndex={setPageIndex}
+                  aboutParagraph={aboutParagraph}
+                  pages={pages}
+                  setSlideIndex={setSlideIndex}
+                  setNewsType={setNewsType}
+                  Motto_Vission={Motto_Vission}
+                  vission={vission}
+                  goUp={goUp}
+                  navigate={navigate}
+                  pageIndex={pageIndex}
+                />
+              }
+            />
+            <Route
+              path="/news&events"
+              element={
+                !isPageStart ? (
+                  <News
+                    newsType={newsType}
+                    setNewsType={setNewsType}
+                    goUp={goUp}
+                    courses={courses}
+                    aboutParagraph={aboutParagraph}
+                    setPageIndex={setPageIndex}
+                    pages={pages}
+                    pageIndex={pageIndex}
+                    setSlideIndex={setSlideIndex}
+                  />
+                ) : (
+                  <Navigate replace to="/" />
+                )
+              }
+            />
+            <Route
+              path="/education"
+              element={
+                <Education
+                  educationPartIndex={educationPartIndex}
+                  setEducationPartIndex={setEducationPartIndex}
+                  courses={courses}
+                  setPageIndex={setPageIndex}
+                  goUp={goUp}
+                  navigate={navigate}
+                  aboutParagraph={aboutParagraph}
+                  pages={pages}
+                  pageIndex={pageIndex}
+                  setSlideIndex={setSlideIndex}
+                />
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <About
+                  aboutParagraph={aboutParagraph}
+                  Motto_Vission={Motto_Vission}
+                  vission={vission}
+                  setPageIndex={setPageIndex}
+                  goUp={goUp}
+                  setEducationPartIndex={setEducationPartIndex}
+                  navigate={navigate}
+                  courses={courses}
+                  pages={pages}
+                  pageIndex={pageIndex}
+                  setSlideIndex={setSlideIndex}
+                />
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <Contact
+                  courses={courses}
+                  aboutParagraph={aboutParagraph}
+                  setPageIndex={setPageIndex}
+                  pages={pages}
+                  pageIndex={pageIndex}
+                  setSlideIndex={setSlideIndex}
+                />
+              }
+            />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </Suspense>
-      <Footer
-        courses={courses}
-        aboutParagraph={aboutParagraph}
-        setPageIndex={setPageIndex}
-        pages={pages}
-        pageIndex={pageIndex}
-        setSlideIndex={setSlideIndex}
-      />
     </main>
   );
 };

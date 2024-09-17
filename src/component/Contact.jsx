@@ -9,11 +9,13 @@ import {
   penSvg,
   phoneSvg,
   xSvg,
-} from "../assets";
+} from "./../assets";
 import { useState } from "react";
 import Button from "./designs/Button";
+import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
 
-const Contact = () => {
+const Contact = (props) => {
   const [locationShow, setLocationShow] = useState(false);
 
   window.onscroll = () => {
@@ -90,7 +92,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="md:w-[60%] relative h-full group">
-            <div className="group-hover:flex  bg-n-1 -top-[4.3rem] hidden absolute h-12 right-0 text-n-8 font-code rounded-t-md rounded-br-md">
+            <div className="group-hover:flex  bg-n-1 hidden absolute h-12 right-0 text-n-8 font-code rounded-t-md rounded-br-md">
               <div className="relative flex items-center h-full px-2 z-10">
                 Not availble at the moment...
                 <div className="absolute bg-n-1 left-0 h-6 -translate-y-4 w-4 top-full -skew-y-[45deg] -z-[1]"></div>
@@ -148,6 +150,7 @@ const Contact = () => {
           </div>
         </div>
       </Section>
+      <Footer {...props} />
     </>
   );
 };
