@@ -18,13 +18,14 @@ import {
   schoolBoys,
   schoolGate,
 } from "../assets";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Tagline from "./designs/Tagline";
 import About from "./About";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
+import { AppContext } from "../App";
 
-const Hero = (props) => {
+const Hero = () => {
   const {
     pages,
     courses,
@@ -35,8 +36,9 @@ const Hero = (props) => {
     Motto_Vission,
     vission,
     goUp,
-    navigate,
-  } = props;
+  } = useContext(AppContext);
+
+  const navigate = useNavigate();
   const [highlightIndex, setHIghlightIndex] = useState(0);
   const [testimonyIndex, setTestmonyIndex] = useState(0);
 
@@ -442,7 +444,6 @@ const Hero = (props) => {
           </div>
         </div>
       </Section>
-      <Footer {...props} />
     </>
   );
 };

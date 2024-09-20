@@ -9,10 +9,12 @@ import {
   WhiteADoubleRightSvg,
 } from "../assets";
 import Button from "./designs/Button";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
+import { useContext } from "react";
+import { AppContext } from "../App";
 
-const About = (props) => {
+const About = () => {
   const {
     aboutParagraph,
     Motto_Vission,
@@ -20,8 +22,9 @@ const About = (props) => {
     setPageIndex,
     goUp,
     setEducationPartIndex,
-    navigate,
-  } = props;
+  } = useContext(AppContext);
+
+  const navigate = useNavigate();
   const iframes = [
     {
       title: "Itorero Activities",
@@ -209,7 +212,6 @@ const About = (props) => {
           </Button>
         </div>
       </Section>
-      <Footer {...props} />
     </>
   );
 };

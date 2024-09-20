@@ -1,27 +1,31 @@
-import React, { lazy, Suspense, useState } from "react";
-import {
-  children,
-  childSvg,
-  classView,
-  computer,
-  Cultural,
-  fileSvg,
-  homeSvg,
-  languageSvg,
-  laptopCodeSvg,
-  newspaperSvg,
-  phoneSvg,
-  prayingSvg,
-  schoolAttention,
-  schoolBoys,
-  schoolGate,
-  usersSvg,
-} from "./assets/index.js";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import React, { createContext, lazy, Suspense, useState } from "react";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NotFound from "./component/NotFound.jsx";
+import {
+  pages,
+  slides,
+  prevSlide,
+  nextSlide,
+  goToIndex,
+  goUp,
+  aboutParagraph,
+} from "./component/Constants.js";
 
 // Regular import for Header.jsx (No lazy loading)
 import Header from "./component/Header.jsx";
+import Footer from "./component/Footer.jsx";
+import Carousel from "./component/Carousel.jsx";
+import {
+  children,
+  childSvg,
+  computer,
+  Cultural,
+  languageSvg,
+  laptopCodeSvg,
+  prayingSvg,
+  schoolBoys,
+} from "./assets/index.js";
 
 // Lazy load other components
 const News = lazy(() => import("./component/News"));
@@ -29,6 +33,8 @@ const Education = lazy(() => import("./component/Education"));
 const Contact = lazy(() => import("./component/Contact"));
 const About = lazy(() => import("./component/About"));
 const Hero = lazy(() => import("./component/Hero.jsx"));
+
+export const AppContext = createContext();
 
 const App = () => {
   const [pageIndex, setPageIndex] = useState(0);
@@ -41,43 +47,8 @@ const App = () => {
 
   const [upScrollButton, setUpScrollButton] = useState(false);
 
-  const [isPageStart, setIsPageStart] = useState(true);
-
-  const interact = () => {
-    console.log(isPageStart);
-  };
-
-  window.onclick = () => {
-    interact();
-    setIsPageStart(false);
-  };
-
-  const slides = [
-    {
-      url: schoolAttention,
-    },
-    {
-      url: schoolBoys,
-    },
-    {
-      url: classView,
-    },
-    {
-      url: schoolGate,
-    },
-  ];
-  const prevSlide = () => {
-    const isFirstSlide = slideIndex === 0;
-    const newSlideIndex = isFirstSlide ? slides.length - 1 : slideIndex - 1;
-    setSlideIndex(newSlideIndex);
-  };
-  const nextSlide = () => {
-    let isLastSlide = slideIndex === slides.length - 1;
-    let newSlideIndex = isLastSlide ? 0 : slideIndex + 1;
-    setSlideIndex(newSlideIndex);
-  };
-  const goToIndex = (index) => {
-    setSlideIndex(index);
+  window.onscrollend = () => {
+    setUpScrollButton(!upScrollButton);
   };
 
   const Motto_Vission = (
@@ -114,10 +85,6 @@ const App = () => {
     </>
   );
 
-  window.onscrollend = () => {
-    setUpScrollButton(!upScrollButton);
-  };
-
   const vission = (
     <>
       <div className="flex flex-col gap-4">
@@ -141,53 +108,6 @@ const App = () => {
       </div>
     </>
   );
-
-  const goUp = () => {
-    window.scrollTo(top);
-  };
-
-  const navigate = useNavigate();
-
-  const aboutParagraph =
-    "Mukingi Secondary school is mixed (boys and girls) secondary school for quality education in advanced level and ordinary level, and its academic program is entirely based on Rwandan National Carriculum, also enhancing science and culture.";
-
-  const pages = [
-    {
-      id: "0",
-      name: "Home",
-      favSlide: 0,
-      iconUrl: homeSvg,
-      routerLink: "/",
-    },
-    {
-      id: "1",
-      name: "News&Events",
-      favSlide: 1,
-      iconUrl: newspaperSvg,
-      routerLink: "/news&events",
-    },
-    {
-      id: "2",
-      name: "Education",
-      favSlide: 2,
-      iconUrl: phoneSvg,
-      routerLink: "/education",
-    },
-    {
-      id: "3",
-      name: "About",
-      favSlide: 3,
-      iconUrl: fileSvg,
-      routerLink: "/about",
-    },
-    {
-      id: "4",
-      name: "Contact",
-      favSlide: 0,
-      iconUrl: usersSvg,
-      routerLink: "/contact",
-    },
-  ];
 
   const courses = [
     {
@@ -301,121 +221,50 @@ const App = () => {
 
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-r from-slate-900 to-black text-white text-sm sm:text-base max-w-screen overflow-x-hidden">
-      <Suspense
-        fallback={
-          <h1 className="h-screen flex items-center justify-center">
-            Loading ...
-          </h1>
-        }
-      >
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Header
-                setPageIndex={setPageIndex}
-                setSlideIndex={setSlideIndex}
-                pages={pages}
-                pageIndex={pageIndex}
-                slides={slides}
-                prevSlide={prevSlide}
-                nextSlide={nextSlide}
-                goToIndex={goToIndex}
-                slideIndex={slideIndex}
-              />
+      <BrowserRouter>
+        <AppContext.Provider
+          value={{
+            pages,
+            pageIndex,
+            setPageIndex,
+            setSlideIndex,
+            slides,
+            prevSlide,
+            nextSlide,
+            goToIndex,
+            slideIndex,
+            courses,
+            aboutParagraph,
+            setNewsType,
+            newsType,
+            educationPartIndex,
+            Motto_Vission,
+            vission,
+            goUp,
+            setEducationPartIndex,
+          }}
+        >
+          <Header />
+          <Carousel />
+          <Suspense
+            fallback={
+              <h1 className="h-screen flex items-center justify-center">
+                Loading ...
+              </h1>
             }
           >
-            <Route
-              exact
-              path="/"
-              element={
-                <Hero
-                  courses={courses}
-                  setPageIndex={setPageIndex}
-                  aboutParagraph={aboutParagraph}
-                  pages={pages}
-                  setSlideIndex={setSlideIndex}
-                  setNewsType={setNewsType}
-                  Motto_Vission={Motto_Vission}
-                  vission={vission}
-                  goUp={goUp}
-                  navigate={navigate}
-                  pageIndex={pageIndex}
-                />
-              }
-            />
-            <Route
-              path="/news&events"
-              element={
-                !isPageStart ? (
-                  <News
-                    newsType={newsType}
-                    setNewsType={setNewsType}
-                    goUp={goUp}
-                    courses={courses}
-                    aboutParagraph={aboutParagraph}
-                    setPageIndex={setPageIndex}
-                    pages={pages}
-                    pageIndex={pageIndex}
-                    setSlideIndex={setSlideIndex}
-                  />
-                ) : (
-                  <Navigate replace to="/" />
-                )
-              }
-            />
-            <Route
-              path="/education"
-              element={
-                <Education
-                  educationPartIndex={educationPartIndex}
-                  setEducationPartIndex={setEducationPartIndex}
-                  courses={courses}
-                  setPageIndex={setPageIndex}
-                  goUp={goUp}
-                  navigate={navigate}
-                  aboutParagraph={aboutParagraph}
-                  pages={pages}
-                  pageIndex={pageIndex}
-                  setSlideIndex={setSlideIndex}
-                />
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <About
-                  aboutParagraph={aboutParagraph}
-                  Motto_Vission={Motto_Vission}
-                  vission={vission}
-                  setPageIndex={setPageIndex}
-                  goUp={goUp}
-                  setEducationPartIndex={setEducationPartIndex}
-                  navigate={navigate}
-                  courses={courses}
-                  pages={pages}
-                  pageIndex={pageIndex}
-                  setSlideIndex={setSlideIndex}
-                />
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <Contact
-                  courses={courses}
-                  aboutParagraph={aboutParagraph}
-                  setPageIndex={setPageIndex}
-                  pages={pages}
-                  pageIndex={pageIndex}
-                  setSlideIndex={setSlideIndex}
-                />
-              }
-            />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+            <Routes>
+              <Route exact path="/" element={<Hero />} />
+              <Route path="/news&events" element={<News />} />
+              <Route path="/education" element={<Education />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          <Footer />
+        </AppContext.Provider>
+      </BrowserRouter>
     </main>
   );
 };

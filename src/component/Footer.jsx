@@ -1,48 +1,27 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   ADoubleRightSvg,
   copyRightSvg,
-  facebookSvg,
-  githubSvg,
   header,
-  linkedInSvg,
   S6Graduates,
   starFull,
   xSvg,
 } from "../assets";
 import Section from "./designs/Section";
 import { Link } from "react-router-dom";
+import { AppContext } from "../App";
+import { designerSacials } from "./Constants";
 
-const Footer = ({
-  aboutParagraph,
-  courses,
-  pages,
-  pageIndex,
-  setPageIndex,
-  setSlideIndex,
-}) => {
+const Footer = () => {
+  const {
+    aboutParagraph,
+    courses,
+    pages,
+    pageIndex,
+    setPageIndex,
+    setSlideIndex,
+  } = useContext(AppContext);
   const [viewDesigner, setViewDesigner] = useState(false);
-
-  const designerSacials = [
-    {
-      id: "0",
-      name: "Github",
-      iconUrl: githubSvg,
-      linkUrl: "https://github.com/miracleibanze/",
-    },
-    {
-      id: "0",
-      name: "Facebook",
-      iconUrl: facebookSvg,
-      linkUrl: "https://facebook.com/MiracleCode/",
-    },
-    {
-      id: "0",
-      name: "LinkedIn",
-      iconUrl: linkedInSvg,
-      linkUrl: "https://www.linkedin.com/in/ibanze-miracle-a203b6270",
-    },
-  ];
 
   return (
     <>
@@ -136,7 +115,7 @@ const Footer = ({
         {viewDesigner && (
           <div className="absolute lg:w-1/2 md:w-2/3 w-full py-2 h-[5rem] flex items-center justify-center bg-n-8 top-0 -translate-y-full right-0 gap-8">
             {designerSacials.map((item) => (
-              <a href={item.linkUrl}>
+              <a href={item.linkUrl} key={item.id}>
                 <img
                   src={item.iconUrl}
                   alt={item.name}

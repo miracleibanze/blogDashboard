@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   award,
   awardSvg,
@@ -14,16 +15,19 @@ import Section from "./designs/Section";
 import Tagline from "./designs/Tagline";
 import EducationFacility from "./EducationFacility";
 import Footer from "./Footer";
+import { useContext } from "react";
+import { AppContext } from "../App";
 
-const Education = (props) => {
+const Education = () => {
   const {
     educationPartIndex,
     setEducationPartIndex,
     courses,
     setPageIndex,
     goUp,
-    navigate,
-  } = props;
+  } = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   const part = [
     {
@@ -148,11 +152,7 @@ const Education = (props) => {
           </Button>
         </div>
       </Section>
-      <EducationFacility
-        {...props}
-        className={`${educationPartIndex != 0 ? "block" : "hidden"}`}
-      />
-      <Footer {...props} />
+      <EducationFacility />
     </>
   );
 };

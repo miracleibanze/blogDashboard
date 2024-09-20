@@ -12,9 +12,11 @@ import Tagline from "./designs/Tagline";
 import NewsPictureHighlight from "./NewsPictureHighlight";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
+import { useContext } from "react";
+import { AppContext } from "../App";
 
-const News = (props) => {
-  const { newsType, setNewsType } = props;
+const News = () => {
+  const { newsType, setNewsType } = useContext(AppContext);
 
   const newTypeTitle = [
     {
@@ -143,7 +145,6 @@ const News = (props) => {
           </div>
         </div>
       </Section>
-      <Footer {...props} />
     </>
   );
 };

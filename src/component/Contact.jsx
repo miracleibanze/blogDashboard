@@ -15,7 +15,7 @@ import Button from "./designs/Button";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 
-const Contact = (props) => {
+const Contact = () => {
   const [locationShow, setLocationShow] = useState(false);
 
   window.onscroll = () => {
@@ -150,7 +150,6 @@ const Contact = (props) => {
           </div>
         </div>
       </Section>
-      <Footer {...props} />
     </>
   );
 };
