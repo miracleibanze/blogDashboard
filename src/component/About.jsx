@@ -1,83 +1,17 @@
 import Section from "./designs/Section";
 import Heading from "./designs/Heading";
-import Tagline from "./designs/Tagline";
-import {
-  DOD,
-  DOS,
-  eyeSlash,
-  headMaster,
-  WhiteADoubleRightSvg,
-} from "../assets";
+import { headMaster, WhiteADoubleRightSvg } from "../assets";
 import Button from "./designs/Button";
-import { Outlet, useNavigate } from "react-router-dom";
-import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../App";
+import { administration, iframes } from "./Constants";
 
 const About = () => {
-  const {
-    aboutParagraph,
-    Motto_Vission,
-    vission,
-    setPageIndex,
-    goUp,
-    setEducationPartIndex,
-  } = useContext(AppContext);
+  const { aboutParagraph, Motto_Vission, vission, setPageIndex, goUp } =
+    useContext(AppContext);
 
   const navigate = useNavigate();
-  const iframes = [
-    {
-      title: "Itorero Activities",
-      description:
-        "We are testified by those who have experienced the ability and work at our school, uniqueness, Displine & intimidation for excellence.",
-      iframeUrl: "https://www.youtube.com/embed/1xrVCQ8IblE",
-    },
-    {
-      title: "Welcoming Visitors",
-      description:
-        "As culture is one of our priorities, here we have testimony from students who passed in hands about 2016, and they did experienced that as it is visible to anyone watching it.",
-      iframeUrl:
-        "https://www.youtube.com/embed/SfI2TNW79qI?si=Oze0YH0uTPjliek0",
-    },
-  ];
-
-  const administration = [
-    {
-      name: "NSHIMYUMUREMYI Jérôme",
-      title: "headMaster",
-      email: "useremail@gmail.com",
-      tel: "+250788888888",
-      imgUrl: headMaster,
-    },
-    {
-      name: "NDAYISABA Edison",
-      title: "Director of Studies",
-      email: "useremail@gmail.com",
-      tel: "+250788888888",
-      imgUrl: DOS,
-    },
-    {
-      name: "NSHIMIYE Isaac",
-      title: "Director of Discipline",
-      email: "useremail@gmail.com",
-      tel: "+250788591045",
-      imgUrl: DOD,
-    },
-    {
-      name: "MUKANTAGANDA Sophie",
-      title: "Bursar",
-      email: "useremail@gmail.com",
-      tel: "+250788888888",
-      imgUrl: eyeSlash,
-    },
-    {
-      name: "MUKASHYAKA Angelique",
-      title: "headMaster",
-      email: "useremail@gmail.com",
-      tel: "+250788888888",
-      imgUrl: eyeSlash,
-    },
-  ];
 
   return (
     <>
@@ -121,9 +55,8 @@ const About = () => {
                   top
                   onClick={() => {
                     setPageIndex(2);
-                    setEducationPartIndex(0);
                     goUp();
-                    navigate("/education");
+                    navigate("/education/about-education");
                   }}
                 >
                   About our Education
@@ -145,15 +78,14 @@ const About = () => {
               <iframe
                 src={item.iframeUrl}
                 title="Youtube video player"
-                frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
+                allowFullScreen
                 className="w-full aspect-video border border-color-1"
               ></iframe>
               <div>
                 <h4 className="mt-[1.3rem] h4">{item.title}</h4>
                 <p>{item.description}</p>
-                <p class="body-1 text-n-1/80 text-end">4 apir, 2016</p>
+                <p className="body-1 text-n-1/80 text-end">4 apir, 2016</p>
               </div>
               <hr />
             </div>
@@ -186,10 +118,10 @@ const About = () => {
                   </p>
 
                   <p className="body-2 flex items-center text-n-8">
-                    Tel: {item.name}
+                    Tel: {item.tel}
                   </p>
                   <p className="body-2 flex items-center text-n-8">
-                    E-mail: {item.name}
+                    E-mail: {item.email}
                   </p>
 
                   <div className="absolute bg-gradient-to-l from-transparent to-n-8/90 w-1  z-[100] bottom-0 top-0 left-1" />

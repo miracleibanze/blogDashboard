@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { memo, useContext, useState } from "react";
 import { fileDownloadSvg, penSvg, WhiteADoubleRightSvg, xSvg } from "../assets";
 import Button from "./designs/Button";
 import Heading from "./designs/Heading";
@@ -7,7 +7,6 @@ import { AppContext } from "../App";
 import { Academics } from "./Constants";
 
 const EducationFacility = ({ className }) => {
-  const { educationPartIndex } = useContext(AppContext);
   const [downloadIndex, setDownloadIndex] = useState(2);
   const [toggleDownload, setToggleDownload] = useState(false);
 
@@ -32,7 +31,7 @@ const EducationFacility = ({ className }) => {
           } border md:w-[70%] w-full md:h-full h-max py-8 bg-color-5 flex flex-col items-center overflow-y-scroll`}
         >
           <h1 className="h1">{Academics[downloadIndex].title}</h1>
-          <ul className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <li>
               <h4 className="md:h4 h6 pt-4">Mathematics</h4>
               <div>
@@ -126,7 +125,7 @@ const EducationFacility = ({ className }) => {
                 </a>
               </div>
             </li>
-          </ul>
+          </div>
         </div>
 
         <div
@@ -135,7 +134,7 @@ const EducationFacility = ({ className }) => {
           } border md:w-[70%] w-full md:h-full h-max py-8 bg-color-5 flex flex-col items-center overflow-y-scroll`}
         >
           <h1 className="h1">{Academics[downloadIndex].title}</h1>
-          <ul className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <li>
               <h4 className="md:h4 h6 pt-4">Kinyarwanda</h4>
               <div>
@@ -229,7 +228,7 @@ const EducationFacility = ({ className }) => {
                 </a>
               </div>
             </li>
-          </ul>
+          </div>
         </div>
 
         {downloadIndex < 3 && (
@@ -237,7 +236,7 @@ const EducationFacility = ({ className }) => {
             className={` border md:w-[70%] w-full md:h-full md:top-8 bottom-8 h-max py-8 bg-color-5 flex flex-col items-center overflow-y-scroll`}
           >
             <h1 className="h1">{Academics[downloadIndex].title}</h1>
-            <ul className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <li>
                 <h4 className="md:h4 h6 pt-4">Mathematics</h4>
                 <div>
@@ -517,7 +516,7 @@ const EducationFacility = ({ className }) => {
                   </a>
                 </div>
               </li>
-            </ul>
+            </div>
           </div>
         )}
       </div>
@@ -531,8 +530,11 @@ const EducationFacility = ({ className }) => {
       <h2 className="h2 border w-full text-center bg-n-1/50">
         Downloads & Learn
       </h2>
-      {Academics.map((item) => (
-        <div className="grid md:grid-cols-2 w-full border relative max-md:grid-rows-2">
+      {Academics.map((item, index) => (
+        <div
+          className="grid md:grid-cols-2 w-full border relative max-md:grid-rows-2"
+          key={index}
+        >
           <div className={`h5 p-8 max-md:p-4 flex items-center gap-4 `}>
             <img className="h-4" src={penSvg} />
             {item.title}
@@ -555,4 +557,4 @@ const EducationFacility = ({ className }) => {
   );
 };
 
-export default EducationFacility;
+export default memo(EducationFacility);

@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ADoubleRightSvg, ALeftSvg, ARightSvg, dot } from "./../assets";
 import { AppContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const Carousel = () => {
   const {
@@ -12,6 +13,8 @@ const Carousel = () => {
     goToIndex,
     slideIndex,
   } = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   return (
     <div className="w-full h-[780px] max-md:h-[425px]">
@@ -30,7 +33,11 @@ const Carousel = () => {
             />
           </div>
           <div className="absolute top-4 fromWhite left-0 py-4 px-8  h-12 z-[90] flex items-center gap-2">
-            {pageIndex != 0 && <h3 className="h3 text-n-8">Home&nbsp;</h3>}
+            {pageIndex != 0 && (
+              <h3 className="h3 text-n-8" onClick={() => navigate("/")}>
+                Home&nbsp;
+              </h3>
+            )}
             <img
               className={`w-8 h-8 ${pageIndex != "0" ? "block" : "hidden"} `}
               src={ADoubleRightSvg}

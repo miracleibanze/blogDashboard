@@ -18,95 +18,27 @@ import {
   schoolBoys,
   schoolGate,
 } from "../assets";
-import { useContext, useState } from "react";
+import { memo, useContext, useState } from "react";
 import Tagline from "./designs/Tagline";
 import About from "./About";
 import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import { AppContext } from "../App";
+import { activities, Highlights, testimonies, weHave } from "./Constants";
 
 const Hero = () => {
   const {
-    pages,
     courses,
     setPageIndex,
     aboutParagraph,
     setSlideIndex,
-    setNewsType,
     Motto_Vission,
     vission,
-    goUp,
   } = useContext(AppContext);
 
   const navigate = useNavigate();
   const [highlightIndex, setHIghlightIndex] = useState(0);
   const [testimonyIndex, setTestmonyIndex] = useState(0);
-
-  const activities = [
-    {
-      id: "0",
-      name: "Hands-On Electronics",
-      description:
-        "In Computer Science, Students does not only engage in theory learning but also get to experience in practical knowledge like electronic disassembly.",
-      imageUrl: eyeSlash,
-    },
-    {
-      id: "1",
-      name: "Laboratory activities",
-      description:
-        "In Ordinary, Students starts experimenting what they learn in sciences, the get chance to understand what they face in upcoming lessons.",
-      imageUrl: eyeSlash,
-    },
-    {
-      id: "2",
-      name: "Community work",
-      description:
-        "As Mukingi Secondary school base on true Rwandan culture students are trained with the passion of national services, that our priority.",
-      imageUrl: DOD,
-    },
-  ];
-
-  const weHave = [
-    {
-      id: "0",
-      name: "Learners",
-      Number: "684",
-    },
-    {
-      id: "1",
-      name: "Teachers",
-      Number: "45",
-    },
-    {
-      id: "2",
-      name: "Computer rooms",
-      Number: "3",
-    },
-  ];
-
-  const Highlights = [
-    {
-      url: parental,
-      caption: "In Meeting with parents",
-      Date: "12 June, 2024",
-    },
-    {
-      url: assemble,
-      caption: "Preparing to go for upcoming 'ITORERO' Festival",
-      Date: "02 February, 2024",
-    },
-    {
-      url: refectory,
-      caption:
-        "Following the notification from Director Of Displine about Lunch time ",
-      Date: "24 june, 2024",
-    },
-    {
-      url: S6Graduates,
-      caption: "Students who have just finished their studies in Senior Six",
-      Date: "31 August, 2024",
-    },
-  ];
 
   const nextHighlight = () => {
     const isLastHightlight = highlightIndex === Highlights.length - 1;
@@ -120,41 +52,6 @@ const Hero = () => {
       : highlightIndex - 1;
     setHIghlightIndex(newHightlightIndex);
   };
-
-  const testimonies = [
-    {
-      id: "0",
-      year: "Student, 2024",
-      names: "IBANZE Miracle",
-      avatar: person1,
-      content:
-        "I found that E.S Mukingi was the best in all aspect, When I got myself compared to other, I was proud of this school because I found I was the first, and now I am still the best thank to E.S Mukingi.",
-    },
-    {
-      id: "1",
-      year: "Student 2023",
-      names: "MUGISHA Fabrice",
-      avatar: eyeSlash,
-      content:
-        "When I remember how there was all I needed to prepare my future dreams, I can't hestate to send my relatives to get that too, I think it is the best for any child.",
-    },
-    {
-      id: "2",
-      year: "Student 2023",
-      names: "ISHIMWE Emelyne",
-      avatar: eyeSlash,
-      content:
-        "I am a business woman thanks to Mukingi secondary school in which I found opportunities to experience outdoor activities that equiped me with enhanced skills of this world, hope it's the choice you deserve.",
-    },
-    {
-      id: "3",
-      year: "Staff",
-      names: "MUKAMANA Emerance",
-      avatar: eyeSlash,
-      content:
-        "I like working on this school because there is always happy mood, care we give students keeps them friendly to us, this is the most thing I like on them as they turn out to be generous everyday more.",
-    },
-  ];
 
   const prevTestimonial = () => {
     const isFirsTestmonial = testimonyIndex === 0;
@@ -208,8 +105,7 @@ const Hero = () => {
                         onClick={() => {
                           setSlideIndex(2);
                           setPageIndex(2);
-                          goUp();
-                          navigate("/education");
+                          navigate("/education/about-education");
                         }}
                       >
                         Read about ...
@@ -226,22 +122,19 @@ const Hero = () => {
       <Section light id="about">
         <div className="relative flex justify-center flex-wrap gap-12">
           <div className=" md:w-[20rem] sm:w-[20rem] lg:w-[20rem] h-[40rem] flex flex-col justify-between item">
-            <Heading
-              title="About"
-              span="Us"
-              tag="How we are unique"
-              className="ml-0 mb-8"
-            />
+            <Tagline>What you should know</Tagline>
+            <div className="h1 text-white mt-0 mb-4">
+              About <span className="text-color-1 relative">Us</span>
+            </div>
             <img
               src={schoolGate}
-              className="w-full h-[14rem] rounded-lg border border-color-4 -translate-y-8"
+              className="w-full aspect-video rounded-lg border border-color-4 -translate-y-8"
             />
             <p className="body-2 text-justify">{aboutParagraph}</p>
             <Button
               onClick={() => {
                 setSlideIndex(3);
                 setPageIndex(3);
-                goUp();
                 navigate("/about");
               }}
             >
@@ -251,7 +144,7 @@ const Hero = () => {
           <div className="lg:w-[20rem] md:w-[18rem] h-[32rem] sm:max-w-[20rem]  translate-y-[10rem] max-[1200px]:translate-y-12 max-md:translate-y-0 flex flex-col justify-between">
             {Motto_Vission}
           </div>
-          <div className="lg:w-[20rem] md:w-[18rem] sm:max-w-[20rem] h-[35rem] flex flex-col justify-between translate-y-[8rem] max-[1200px]:translate-y-0">
+          <div className="lg:w-[20rem] max-[1155px]:md:min-w-[35rem]  sm:w-[70%] w-full flex flex-col justify-between translate-y-[8rem] max-[1200px]:translate-y-0">
             {vission}
           </div>
         </div>
@@ -289,9 +182,7 @@ const Hero = () => {
               onClick={() => {
                 setPageIndex(2);
                 setSlideIndex(1);
-                setNewsType(0);
-                goUp();
-                navigate("/education");
+                navigate("/news&events/news");
               }}
             >
               Read in News & Events
@@ -349,8 +240,7 @@ const Hero = () => {
           <Button
             onClick={() => {
               setPageIndex(2);
-              goUp();
-              navigate("/education");
+              navigate("/news&events/news");
             }}
           >
             Go to News & Activities
@@ -395,9 +285,7 @@ const Hero = () => {
               onClick={() => {
                 setPageIndex(1);
                 setSlideIndex(2);
-                setNewsType(1);
-                goUp();
-                navigate("./news&events");
+                navigate("./news&events/picture-highlight");
               }}
             >
               See more
@@ -413,8 +301,8 @@ const Hero = () => {
             span="Testimony"
             text="This is why Our school is the best choise, Read experiences from students, parents and Staff"
           />
-          <div className="grid w-full md:grid-cols-2 gap-8">
-            <div className="w-[25rem] h-full flex flex-col items-end max-md:w-max max-md:mx-auto">
+          <div className="grid w-full md:grid-cols-2 gap-8 max-lg:md:pt-[6rem]">
+            <div className="w-[25rem] h-full flex flex-col items-end max-md:w-max max-md:mx-auto max-lg:md:-translate-y-[6rem]">
               <div className="w-full h-auto flex md:gap-2 gap-8 md:flex-row flex-col items-center justify-start relative left-0">
                 <img
                   className="w-[10rem] h-[10rem] rounded-full bg-n-7 border-8 border-color-1 object-cover object-center relative z-10"
@@ -448,4 +336,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default memo(Hero);

@@ -1,12 +1,16 @@
-import React, { createContext, lazy, Suspense, useState } from "react";
+import React, {
+  createContext,
+  lazy,
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import NotFound from "./component/NotFound.jsx";
 import {
   pages,
   slides,
-  prevSlide,
-  nextSlide,
   goToIndex,
   goUp,
   aboutParagraph,
@@ -47,9 +51,15 @@ const App = () => {
 
   const [upScrollButton, setUpScrollButton] = useState(false);
 
+  const location = useLocation();
+
   window.onscrollend = () => {
     setUpScrollButton(!upScrollButton);
   };
+
+  useEffect(() => {
+    window.scrollTo(top);
+  }, [location]);
 
   const Motto_Vission = (
     <>
@@ -219,52 +229,61 @@ const App = () => {
     },
   ];
 
+  const prevSlide = () => {
+    const isFirstSlide = slideIndex === 0;
+    const newSlideIndex = isFirstSlide ? slides.length - 1 : slideIndex - 1;
+    setSlideIndex(newSlideIndex);
+  };
+  const nextSlide = () => {
+    let isLastSlide = slideIndex === slides.length - 1;
+    let newSlideIndex = isLastSlide ? 0 : slideIndex + 1;
+    setSlideIndex(newSlideIndex);
+  };
+
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-r from-slate-900 to-black text-white text-sm sm:text-base max-w-screen overflow-x-hidden">
-      <BrowserRouter>
-        <AppContext.Provider
-          value={{
-            pages,
-            pageIndex,
-            setPageIndex,
-            setSlideIndex,
-            slides,
-            prevSlide,
-            nextSlide,
-            goToIndex,
-            slideIndex,
-            courses,
-            aboutParagraph,
-            setNewsType,
-            newsType,
-            educationPartIndex,
-            Motto_Vission,
-            vission,
-            goUp,
-            setEducationPartIndex,
-          }}
+      <AppContext.Provider
+        value={{
+          pages,
+          pageIndex,
+          setPageIndex,
+          setSlideIndex,
+          slides,
+          prevSlide,
+          nextSlide,
+          goToIndex,
+          slideIndex,
+          courses,
+          aboutParagraph,
+          setNewsType,
+          newsType,
+          educationPartIndex,
+          Motto_Vission,
+          vission,
+          goUp,
+          setEducationPartIndex,
+        }}
+      >
+        <Header />
+        <Carousel />
+        <Suspense
+          fallback={
+            <h1 className="h-screen flex items-center justify-center">
+              Loading ...
+            </h1>
+          }
         >
-          <Header />
-          <Carousel />
-          <Suspense
-            fallback={
-              <h1 className="h-screen flex items-center justify-center">
-                Loading ...
-              </h1>
-            }
-          >
-            <Routes>
-              <Route exact path="/" element={<Hero />} />
-              <Route path="/news&events" element={<News />} />
-              <Route path="/education" element={<Education />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          <Footer />
-        </AppContext.Provider>
-      </BrowserRouter>
+          <Routes>
+            <Route exact path="/" element={<Hero />} />
+            <Route path="/news&events/:type" element={<News />} />
+            <Route path="/education/:type" element={<Education />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+        <Footer />
+      </AppContext.Provider>
     </main>
   );
 };

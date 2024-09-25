@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   award,
   awardSvg,
@@ -15,7 +15,7 @@ import Section from "./designs/Section";
 import Tagline from "./designs/Tagline";
 import EducationFacility from "./EducationFacility";
 import Footer from "./Footer";
-import { useContext } from "react";
+import { memo, useContext, useEffect } from "react";
 import { AppContext } from "../App";
 
 const Education = () => {
@@ -27,6 +27,7 @@ const Education = () => {
     goUp,
   } = useContext(AppContext);
 
+  const { type } = useParams();
   const navigate = useNavigate();
 
   const part = [
@@ -39,6 +40,16 @@ const Education = () => {
       span: "Click here and follow your studies",
     },
   ];
+
+  useEffect(() => {
+    if (type === "about-education") {
+      setEducationPartIndex(0);
+    } else if (type === "education-facilities") {
+      setEducationPartIndex(1);
+    } else {
+      navigate("/");
+    }
+  }, [type]);
 
   const features = [
     {
@@ -72,7 +83,7 @@ const Education = () => {
   ];
 
   return (
-    <>
+    <div>
       <div className="flex justify-center w-full">
         {part.map((item, itemIndex) => (
           <div
@@ -81,7 +92,11 @@ const Education = () => {
               educationPartIndex != itemIndex ? "" : "text-n-8/90 bg-n-1/50"
             }`}
             onClick={() => {
-              setEducationPartIndex(itemIndex);
+              navigate(
+                educationPartIndex === 0
+                  ? "/education/education-facilities"
+                  : "/education/about-education"
+              );
             }}
           >
             {item.title}
@@ -96,7 +111,6 @@ const Education = () => {
             )}
           </div>
         ))}
-        {educationPartIndex}
       </div>
 
       <Section
@@ -115,14 +129,17 @@ const Education = () => {
                   <img src={item.iconUrl} className="w-8" />
                 </div>
                 <h5 className="h5 font-bold px-2">{item.title}</h5>
-                <p className="h-1/2 body-2 p-4">{item.content}</p>
+                <div className="h-1/2 body-2 p-4">{item.content}</div>
               </div>
             ))}
           </div>
           <Heading title="About our" span="key Courses" />
           <div className="grid md:grid-cols-2 gap-8">
             {courses.map((item, itemIndex) => (
-              <div className="flex items-start flex-col justify-between">
+              <div
+                className="flex items-start flex-col justify-between"
+                key={itemIndex}
+              >
                 <h3 className="h3 font-bold flex items-center gap-2">
                   <img
                     src={item.coverUrl}
@@ -131,10 +148,10 @@ const Education = () => {
                   />
                   {item.name}
                 </h3>
-                <p className="body-1 text-white mb-4">
+                <div className="body-1 text-white mb-4">
                   {item.full || item.content}
-                </p>
-                <p>{item.description}</p>
+                </div>
+                <div>{item.description}</div>
               </div>
             ))}
           </div>
@@ -152,9 +169,11 @@ const Education = () => {
           </Button>
         </div>
       </Section>
-      <EducationFacility />
-    </>
+      <EducationFacility
+        className={`${type === "education-facilities" ? "flex" : "hidden"}`}
+      />
+    </div>
   );
 };
 
-export default Education;
+export default memo(Education);

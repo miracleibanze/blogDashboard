@@ -10,14 +10,25 @@ import {
 } from "./../assets";
 import Tagline from "./designs/Tagline";
 import NewsPictureHighlight from "./NewsPictureHighlight";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import Footer from "./Footer";
-import { useContext } from "react";
+import { memo, useContext, useEffect } from "react";
 import { AppContext } from "../App";
 
 const News = () => {
   const { newsType, setNewsType } = useContext(AppContext);
+  const { type } = useParams();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (type === "picture-highlight") {
+      setNewsType(1);
+    } else if (type === "news") {
+      setNewsType(0);
+    } else {
+      navigate("/");
+    }
+  }, [newsType]);
   const newTypeTitle = [
     {
       title: "News & Events",
@@ -71,6 +82,11 @@ const News = () => {
             }`}
             onClick={() => {
               setNewsType(itemIndex);
+              navigate(
+                newsType === 0
+                  ? "/news&events/picture-highlight"
+                  : "/news&events/news"
+              );
             }}
           >
             {item.title}
@@ -86,7 +102,6 @@ const News = () => {
             )}
           </div>
         ))}
-        {newsType}
       </div>
       <NewsPictureHighlight
         className={`${newsType != 0 ? "block" : "hidden"}`}
@@ -98,6 +113,7 @@ const News = () => {
             span="& Events"
             text="Here you can read and follow what happened in school that you might need to know"
           />
+          <h1>{type}</h1>
           <div className="relative grid gap-6 md:grid-cols-2 md:gap-4 md:pb-[7rem]">
             {news.map((item, itemIndex) => (
               <div
@@ -149,4 +165,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default memo(News);

@@ -1,32 +1,13 @@
 import { useContext, useState } from "react";
-import {
-  fileSvg,
-  hamburgerSvg,
-  header,
-  homeSvg,
-  newspaperSvg,
-  phoneSvg,
-  usersSvg,
-  xSvg,
-} from "../assets";
-import { Link, Outlet } from "react-router-dom";
-import { ADoubleRightSvg, ALeftSvg, ARightSvg, dot } from "../assets";
+import { hamburgerSvg, header, phoneSvg, xSvg } from "../assets";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AppContext } from "../App";
 
 const Header = () => {
-  const {
-    setPageIndex,
-    setSlideIndex,
-    pageIndex,
-    slides,
-    prevSlide,
-    nextSlide,
-    goToIndex,
-    slideIndex,
-    pages,
-  } = useContext(AppContext);
+  const { setPageIndex, setSlideIndex, pages } = useContext(AppContext);
 
   const [click, setClick] = useState(false);
+  const navigate = useNavigate();
 
   const handleClick = () => {
     setClick(!click);
@@ -48,6 +29,7 @@ const Header = () => {
                 setSlideIndex(page.favSlide);
                 setPageIndex(page.id);
                 handleClick();
+                navigate(page.routerLink);
               }}
             >
               <img src={page.iconUrl} className="h-12 p-[0.8rem] w-12" />
@@ -89,7 +71,7 @@ const Header = () => {
               />
               <div className="h-16 flex flex-col justify-center items-start ml-2 pl-2 uppercase">
                 <p className="font-bold">call us :</p>
-                <p>+2507888591045 / +2507849329</p>
+                <p>+250788870169 / +250788591045</p>
               </div>
             </div>
           </div>

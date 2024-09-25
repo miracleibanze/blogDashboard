@@ -10,7 +10,7 @@ import {
   phoneSvg,
   xSvg,
 } from "./../assets";
-import { useState } from "react";
+import { memo, useState } from "react";
 import Button from "./designs/Button";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
@@ -72,7 +72,7 @@ const Contact = () => {
               </div>
               <p className="body-2 flex items-center gap-2">
                 <img src={phoneSvg} className="h-4" />
-                +250788888888
+                +250788870169
               </p>
               <p className="body-2 flex items-center gap-2">
                 <img src={phoneSvg} className="h-4" />
@@ -80,7 +80,7 @@ const Contact = () => {
               </p>
               <p className="body-2 flex items-center gap-2">
                 <img src={phoneSvg} className="h-4" />
-                +250788888888
+                +2507*******
               </p>
             </div>
             <div>
@@ -154,4 +154,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default memo(Contact);
