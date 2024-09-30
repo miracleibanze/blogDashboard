@@ -2,36 +2,10 @@
 import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 
-
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      
-      colors: {
-        color: {
-          1: "#60A5FA",
-          2: "#00C700",
-          3: "#00005a",
-          4: "#ffe600",
-          5: "#0F223F",
-          6: "#008000"
-        },
-        stroke: {
-          1: "#26242C",
-        },
-        n: {
-          1: "#FFFFFF",
-          2: "#CAC6DD",
-          3: "#ADA8C3",
-          4: "#757185",
-          5: "#3F3A52",
-          6: "#252134",
-          7: "#15131D",
-          8: "#0E0C15",
-          9: "#474060",
-        },
-      },
       fontFamily: {
         sans: ["var(--font-sora)", ...fontFamily.sans],
         code: "var(--font-code)",
@@ -41,8 +15,7 @@ export default {
         "radial-gradient": "radial-gradient(var(--tw-gradient-stops))",
         "conic-gradient":
           "conic-gradient(from 225deg, #FFC876, #79FFF7, #9F53FF, #FF98E2, #FFC876)",
-        "cyan-bottom":
-            "linear-gradient(#00000000, #00000000, #60A5FA)",
+        "cyan-bottom": "linear-gradient(#00000000, #00000000, #60A5FA)",
       },
     },
   },
@@ -51,11 +24,11 @@ export default {
       addBase({});
       addComponents({
         ".container": {
-          "@apply max-w-[77.5rem] mx-auto px-2 py-4 md:px-4 lg:px-[3rem] xl:max-w-[87.5rem]":
+          "@apply max-w-[77.5rem] mx-auto h-auto relative h-auto pt-4 max-md:pb-[4.2rem] px-2 py-4 md:px-4 lg:px-[3rem]":
             {},
         },
         ".h1": {
-          "@apply font-semibold text-[2.5rem] leading-[3.25rem] md:text-[2.75rem] md:leading-[3.75rem] lg:text-[3.25rem] lg:leading-[4.0625rem] xl:text-[3.75rem] xl:leading-[4.5rem]":
+          "@apply font-semibold text-[2.5rem] md:text-[2.75rem] lg:text-[3.25rem] xl:text-[3.75rem]":
             {},
         },
         ".h2": {
@@ -85,8 +58,7 @@ export default {
           "@apply text-sm": {},
         },
         ".tagline": {
-          "@apply font-grotesk font-light text-xs uppercase":
-            {},
+          "@apply font-grotesk font-light text-xs uppercase": {},
         },
         ".quote": {
           "@apply font-code text-lg leading-normal": {},
@@ -102,4 +74,4 @@ export default {
       });
     }),
   ],
-}
+};

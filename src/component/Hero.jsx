@@ -1,338 +1,285 @@
-import Section from "./designs/Section";
-import Heading from "./designs/Heading";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { blogs } from "./Constants";
 import Button from "./designs/Button";
 import {
-  ADoubleLeftSvg,
   ADoubleRightSvg,
-  ALeftSvg,
-  ARightSvg,
-  arrowRight,
-  assemble,
-  DOD,
-  eyeSlash,
-  headMaster,
-  parental,
-  person1,
-  refectory,
-  S6Graduates,
-  schoolBoys,
-  schoolGate,
+  fullScreenIcon,
+  fullScreenOffIcon,
+  grid,
+  pen,
+  shareSvg,
+  userSvg,
 } from "../assets";
-import { memo, useContext, useState } from "react";
-import Tagline from "./designs/Tagline";
-import About from "./About";
-import { Outlet, useNavigate } from "react-router-dom";
-import Footer from "./Footer";
+import { memo, useContext, useEffect, useState } from "react";
 import { AppContext } from "../App";
-import { activities, Highlights, testimonies, weHave } from "./Constants";
+import ThumbsUp from "./../assets/svgs/ThumbsUp";
+import ThumbsDown from "./../assets/svgs/ThumbsDown";
+import Card from "./designs/Card";
 
 const Hero = () => {
-  const {
-    courses,
-    setPageIndex,
-    aboutParagraph,
-    setSlideIndex,
-    Motto_Vission,
-    vission,
-  } = useContext(AppContext);
-
+  const { blog } = useParams();
   const navigate = useNavigate();
-  const [highlightIndex, setHIghlightIndex] = useState(0);
-  const [testimonyIndex, setTestmonyIndex] = useState(0);
+  const location = useLocation();
 
-  const nextHighlight = () => {
-    const isLastHightlight = highlightIndex === Highlights.length - 1;
-    const newHightlightIndex = isLastHightlight ? 0 : highlightIndex + 1;
-    setHIghlightIndex(newHightlightIndex);
-  };
-  const prevHighlight = () => {
-    const isFirstHightlight = highlightIndex === 0;
-    const newHightlightIndex = isFirstHightlight
-      ? Highlights.length - 1
-      : highlightIndex - 1;
-    setHIghlightIndex(newHightlightIndex);
+  const { primaryBlog, setPrimaryBlog, dummyUserObject } =
+    useContext(AppContext);
+  const [showComment, setShowComment] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
+
+  let comment = "";
+
+  const toggleComment = () => {
+    setShowComment(!showComment);
   };
 
-  const prevTestimonial = () => {
-    const isFirsTestmonial = testimonyIndex === 0;
-    const newTestimonyIndex = isFirsTestmonial
-      ? testimonies.length - 1
-      : testimonyIndex - 1;
-    setTestmonyIndex(newTestimonyIndex);
+  const addComment = (event) => {
+    comment = event.target.value;
   };
-  const nextTestimonial = () => {
-    const isLastTestimony = testimonyIndex === testimonies.length - 1;
-    const newTestimonyIndex = isLastTestimony ? 0 : testimonyIndex + 1;
-    setTestmonyIndex(newTestimonyIndex);
+
+  const toggleFullScreen = () => {
+    setFullScreen(!fullScreen);
   };
+
+  const handleAddComment = () => {
+    if (comment !== "") primaryBlog.comment = [...primaryBlog.comment, comment];
+    console.log(comment);
+  };
+  useEffect(() => {
+    blogs.filter((item, index) => {
+      if (item.name === blog) {
+        setPrimaryBlog(blogs[index]);
+      }
+    });
+  }, [location.pathname]);
 
   return (
-    <>
-      <Section id="courses" className="p-2">
-        <Heading
-          tag="welcome To our school"
-          title="Ecole"
-          span="Secondaire"
-          title2="De"
-          span2="Mukingi"
-        />
-        <div className="container relative">
-          <div className="flex flex-wrap items-center justify-center gap-8 content-evenly max-[880px]:gap-4">
-            {courses.map((item, itemIndex) => (
-              <div
-                key={itemIndex}
-                className={`w-[20rem] max-[695px]:w-[25rem] h-[28rem] p-[.0625rem] rounded-3xl max-[880px]:w-[18rem] border border-n-1/30 ${
-                  item.colorful ? "bg-conic-gradient" : ""
-                }`}
-              >
-                <div
-                  className="w-full h-full bg-n-8/95 rounded-3xl bg-cover bg-center "
-                  style={{
-                    backgroundImage: `url(${item.bgUrl ? item.bgUrl : ""})`,
-                  }}
-                >
-                  <div className="w-full relative h-full p-4 pb-6 bg-n-7/80 rounded-3xl flex flex-col justify-between">
-                    <img
-                      className="h-[6rem] mx-auto bg-cyan-bottom p-2"
-                      src={item.coverUrl}
-                    />
-                    <h3 className="h3 ">{item.name}</h3>
-                    <div className="body-1 text-n-2">
-                      {item.full || item.content}
-                    </div>
-                    <div className="w-full flex justify-center">
-                      <Button
-                        onClick={() => {
-                          setSlideIndex(2);
-                          setPageIndex(2);
-                          navigate("/education/about-education");
-                        }}
-                      >
-                        Read about ...
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+    <div className="container">
+      <div className="relative flex items-center justify-between">
+        <div>
+          <span
+            className={`body-1 font-semibold mr-2 py-2 ${
+              !blog && "border-b border-b-slate-700"
+            } hover:bg-zinc-400 py-2 px-3 rounded-md`}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            For you
+          </span>
+          <span
+            className={`body-1 font-semibold ${
+              blog && "border-b border-b-slate-700"
+            } hover:bg-zinc-400 py-2 px-3 rounded-md`}
+            onClick={() => {
+              navigate("/all/blogs/all");
+            }}
+          >
+            More
+          </span>
         </div>
-      </Section>
-
-      <Section light id="about">
-        <div className="relative flex justify-center flex-wrap gap-12">
-          <div className=" md:w-[20rem] sm:w-[20rem] lg:w-[20rem] h-[40rem] flex flex-col justify-between item">
-            <Tagline>What you should know</Tagline>
-            <div className="h1 text-white mt-0 mb-4">
-              About <span className="text-color-1 relative">Us</span>
-            </div>
-            <img
-              src={schoolGate}
-              className="w-full aspect-video rounded-lg border border-color-4 -translate-y-8"
+        <span
+          className="body-2 font-semibold mr-2 hover:bg-zinc-400 py-2 px-3 rounded-md"
+          onClick={() => alert("Post saved to your Profile successfully!")}
+        >
+          Save
+        </span>
+      </div>
+      <div className="flex md:flex-row flex-col my-3 gap-8 relative">
+        <div className="lg:min-w-[60%] md:min-w-[55%] w-full flex flex-col gap-3">
+          <div
+            className={` ${
+              fullScreen
+                ? "fixed inset-0 bg-contain z-[100]"
+                : "w-full aspect-video rounded-2xl bg-contain relative"
+            } group bg-slate-700/80 bg-center bg-no-repeat`}
+            style={{ backgroundImage: `url(${primaryBlog.img})` }}
+          >
+            <div
+              className={` ${
+                fullScreen
+                  ? "fixed z-[1000]"
+                  : "absolute  hidden group-hover:flex"
+              } h-8 w-8 bg-cover bg-center bottom-4 right-4 shadow-2xl shadow-white`}
+              onClick={toggleFullScreen}
+              style={{
+                backgroundImage: `url(${
+                  fullScreen ? fullScreenOffIcon : fullScreenIcon
+                })`,
+              }}
             />
-            <p className="body-2 text-justify">{aboutParagraph}</p>
-            <Button
-              onClick={() => {
-                setSlideIndex(3);
-                setPageIndex(3);
-                navigate("/about");
-              }}
-            >
-              About Us
-            </Button>
           </div>
-          <div className="lg:w-[20rem] md:w-[18rem] h-[32rem] sm:max-w-[20rem]  translate-y-[10rem] max-[1200px]:translate-y-12 max-md:translate-y-0 flex flex-col justify-between">
-            {Motto_Vission}
-          </div>
-          <div className="lg:w-[20rem] max-[1155px]:md:min-w-[35rem]  sm:w-[70%] w-full flex flex-col justify-between translate-y-[8rem] max-[1200px]:translate-y-0">
-            {vission}
-          </div>
-        </div>
-      </Section>
-
-      <Section id="activities">
-        <Heading
-          title="Activities"
-          span="highlight"
-          tag="Why choose our school"
-        />
-
-        <div className="container relative">
-          <div className="w-full h-full flex flex-wrap items-center justify-center gap-12">
-            {activities.map((item) => (
-              <div
-                key={item.id}
-                className="w-[20rem] h-[30rem] relative bg-conic-gradient p-[0.0625rem]"
-              >
-                <div className="w-full h-full bg-slate-900 p-4 flex flex-col justify-between">
-                  <div>
-                    <h5 className="h5 text-center">{item.name}</h5>
-                    <img
-                      className="w-full object-cover h-[13rem] border mt-4"
-                      src={item.imageUrl}
-                    />
-                  </div>
-                  <p className="body-2 text-justify pb-8">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="w-full text-end pt-8 px-8">
-            <Button
-              onClick={() => {
-                setPageIndex(2);
-                setSlideIndex(1);
-                navigate("/news&events/news");
-              }}
-            >
-              Read in News & Events
-            </Button>
-          </div>
-        </div>
-      </Section>
-
-      <Section
-        id="we-have"
-        className=" bg-cover h-[700px] bg-center"
-        style={{ backgroundImage: `url(${headMaster})` }}
-      >
-        <div className="container absolute w-full h-full flex flex-col justify-center gap-4 items-center bg-gradient-to-b from-n-6/0 to-n-6/70">
-          <h3 className="h3 -translate-y-32 lg:-translate-y-1/2">We have :</h3>
-          <div className="flex gap-8 flex-wrap justify-evenly w-full">
-            {weHave.map((item) => (
-              <div
-                key={item.id}
-                className="w-[10rem] text-center overflow-visible "
-              >
-                <h1 className="h1 text-[5rem] border-t-8 font-code border-red-600 pt-8">
-                  {item.Number}
-                </h1>
-                <h2 className="h2">{item.name}</h2>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Section>
-      <Section id="outdoor">
-        <div className="container relative flex flex-col items-start max-md:items-center justify-between gap-8">
-          <Heading title="Outdoors" span="Activities" className="w-full" />
-          <div className="flex items-center max-md:flex-col-reverse justify-between gap-32  xl:h-[15rem] lg:h-[18rem] md:h-[20rem] max-md:h-auto overflow-visible max-md:gap-8">
-            <p className="mt-0 body-1 max-md:text-justify">
-              Join us for Outdoor Adventures, where students will engage in a
-              series of skills building activities and explore the great
-              community situations. This experience is all about fostering their
-              ability of teamwork, leadership and love for nature in the out of
-              school world, These helps students connect their academic
-              knowledge to real-world situations, enhancing their averall
-              learning journey.
-              <br />
-              Activities are mentioned <i>new & Events</i>{" "}
-            </p>
-
-            <div className="h-[23rem] min-w-[40%] relative">
+          <div className="w-full flex items-center justify-between px-4">
+            <span className="flex items-center gap-2">
               <img
-                src={eyeSlash}
-                className="w-full md:blueShadow rounded-3xl h-full object-cover"
-                alt="Students in activities"
+                src={primaryBlog.blogger}
+                alt="user"
+                className="w-8 aspect-square rounded-full border-2 border-zinc-500 object-cover object-center"
+              />
+              {primaryBlog.bloggerName}
+            </span>
+            <span className="w-24 flex items-center gap-2 ">
+              <ThumbsUp
+                fill="#22d3ee"
+                className="min-h-8 max-h-8 aspect-square"
+              />
+              <ThumbsDown
+                fill="#22d3ee"
+                className="min-h-8 max-h-8 aspect-square"
+              />
+              <img
+                src={shareSvg}
+                alt="share"
+                className="min-h-8 max-h-8 aspect-square"
+              />
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-col justify-between md:w-[38%] relative">
+          <div className="flex flex-col justify-center items-start gap-4 max-h-full relative overflow-y-scroll scrollDesign">
+            <h1 className="h1 px-0 text-start leading-none ">
+              {primaryBlog.name}
+            </h1>
+            <p className="body-1 text-start font-medium leading-6">
+              {primaryBlog.description}
+            </p>
+            <div className="grid grid-cols-2 w-full gap-3">
+              <Button dark rounded onClick={() => navigate("/all/blogs/all")}>
+                Read more
+              </Button>
+              <Button cyan rounded onClick={toggleComment}>
+                Read comments
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-full h-11 flex gap-2 md:max-w-[70%] flex-wrap my-4">
+        <textarea
+          name="comment"
+          onChange={addComment}
+          placeholder="Comment"
+          className="h-full outline-none px-3 flex-1 w-auto rounded-md py-2"
+        ></textarea>
+        <Button dark onClick={handleAddComment} hFull>
+          Add comment
+        </Button>
+      </div>
+
+      <div
+        className={`${
+          showComment ? "flex" : "hidden"
+        } w-full flex flex-col md:w-[70%]`}
+      >
+        {primaryBlog.comment.map((item, index) => (
+          <span
+            key={index}
+            className="w-full flex border-b border-b-zinc-700 pb-4 items-start"
+          >
+            <img
+              src={
+                index === 0
+                  ? primaryBlog.blogger
+                  : dummyUserObject.imgUrl || userSvg
+              }
+              className="min-w-12 max-w-12 aspect-square m-2 object-cover object-center rounded-full bg-conic-gradient"
+            />
+            <p className="text-start">{item}</p>
+          </span>
+        ))}
+      </div>
+
+      <div className="relative grid lg:grid-cols-11 md:grid-cols-9 sm:grid-cols-7 grid-cols-2 gap-2 w-full mt-8">
+        <div
+          className="row-span-4 col-span-3 bg-zinc-100 rounded-md gap-2 flex sm:flex-col max-sm:grid max-sm:grid-cols-2 bg-cover bg-blend-overlay"
+          style={{ backgroundImage: `url(${grid})` }}
+        >
+          <div className="w-full">
+            <h2 className="h2 font-bold pt-3">Read more</h2>
+            <p className="body-1 text-zinc-700/60 font-semibold">
+              Live blog synch
+            </p>
+            <div className="flex relative h-max place-content-center sm:mt-12 mb-4 w-full">
+              <div className="  flex text-zinc-800/50 flex-col justify-between px-2">
+                <div className="h-full">90</div>
+                <div className="h-full">80</div>
+                <div className="h-full">70</div>
+                <div className="h-full">55</div>
+                <div className="h-full">45</div>
+                <div className="h-full">30</div>
+              </div>
+              <div
+                className="w-[80%] aspect-square bg-cover relative"
+                style={{ backgroundImage: `url(${grid})` }}
               />
             </div>
           </div>
-          <Button
-            onClick={() => {
-              setPageIndex(2);
-              navigate("/news&events/news");
-            }}
-          >
-            Go to News & Activities
-          </Button>
-        </div>
-      </Section>
-
-      <Section id="picture-highlight" light>
-        <div className="container flex flex-col items-center justify-center xl:px-[10rem] lg:px-[6rem] md:px-[3rem] px-[1rem]">
-          <Heading
-            title="Picture"
-            span="Highlights"
-            tag="our everyday activities in pictures"
-          />
-          <div
-            className="relative w-full xl:h-[550px] lg:h-[500px] md:h-[400px] h-[300px] blueShadow border border-color-1 bg-cover"
-            style={{
-              backgroundImage: `url(${Highlights[highlightIndex].url})`,
-            }}
-          >
-            <Tagline className="absolute top-4 left-0 bg-n-8/60 px-4">
-              {Highlights[highlightIndex].Date}
-            </Tagline>
-
-            <div className="body-2 absolute bottom-4 right-32 left-32 py-8 text-center bg-n-8/50">
-              {Highlights[highlightIndex].caption}
-            </div>
-
-            <div className="absolute z-1  bottom-0 left-0">
-              <Button blue onClick={() => prevHighlight()}>
-                <img src={ADoubleLeftSvg} className="w-8 h-8" />
-              </Button>
-            </div>
-            <div className="absolute z-1  bottom-0 right-0">
-              <Button blue onClick={() => nextHighlight()}>
-                <img src={ADoubleRightSvg} className="w-8 h-8" />
-              </Button>
-            </div>
-          </div>
-          <div className="relative w-full py-4 mt-4">
-            <Button
-              onClick={() => {
-                setPageIndex(1);
-                setSlideIndex(2);
-                navigate("./news&events/picture-highlight");
-              }}
-            >
-              See more
-            </Button>
-          </div>
-        </div>
-      </Section>
-
-      <Section id="testimonials">
-        <div className="container relative">
-          <Heading
-            title="Our"
-            span="Testimony"
-            text="This is why Our school is the best choise, Read experiences from students, parents and Staff"
-          />
-          <div className="grid w-full md:grid-cols-2 gap-8 max-lg:md:pt-[6rem]">
-            <div className="w-[25rem] h-full flex flex-col items-end max-md:w-max max-md:mx-auto max-lg:md:-translate-y-[6rem]">
-              <div className="w-full h-auto flex md:gap-2 gap-8 md:flex-row flex-col items-center justify-start relative left-0">
-                <img
-                  className="w-[10rem] h-[10rem] rounded-full bg-n-7 border-8 border-color-1 object-cover object-center relative z-10"
-                  src={testimonies[testimonyIndex].avatar}
-                />
-                <div className="md:bg-color-1 md:text-n-8 text-n-1 md:translate-x-[5rem] absolute max-md:relative top-0 px-[5rem] h-[5rem] md:pr-4 rounded-br-[3rem] ">
-                  <div className="h5 font-bold">
-                    {testimonies[testimonyIndex].names}
-                  </div>
-                  <div className="body-2">
-                    {testimonies[testimonyIndex].year}
-                  </div>
-                </div>
+          <div className="flex relative h-max place-content-center mt-12 mb-4 w-full p-2">
+            <div
+              className="relative sm:max-w-10 max-w-8  min-w-6 bg-center bg-no-repeat aspect-[6/70] bg-contain"
+              style={{ backgroundImage: `url(${pen})` }}
+            />
+            <div className="flex-1 aspect-square max-w-full overflow-hidden">
+              <h5 className="h5 font-code font-bold uppercase leading-none">
+                A&nbsp;Comment live&nbsp;Markdown
+              </h5>
+              <div className="flex flex-wrap gap-x-2 gap-y-4 ml-4 mt-3 mr-3 w-[90%] place-content-start">
+                {Array(16)
+                  .fill("")
+                  .map((item, index) => (
+                    <div className="h-5 aspect-square rounded-badly bg-zinc-500/50"></div>
+                  ))}
               </div>
             </div>
-            <div className="flex-1 h5 text-center">
-              "{testimonies[testimonyIndex].content}"
-            </div>
-          </div>
-          <div className="pt-12 flex justify-between">
-            <Button className="rounded-full" onClick={() => prevTestimonial()}>
-              <img className="w-8 h-8" src={ALeftSvg} />
-            </Button>
-            <Button className="rounded-full" onClick={() => nextTestimonial()}>
-              <img className="w-8 h-8" src={ARightSvg} />
-            </Button>
           </div>
         </div>
-      </Section>
-    </>
+        <h3 className="h3 relative bg-slate-100 lg:col-span-8 md:col-span-6 sm:col-span-4 col-span-4 ">
+          More blogs
+        </h3>
+        <>
+          {Array(5)
+            .fill("")
+            .map((item, index) => (
+              <div
+                className={`w-full sm:col-span-2 col-span-1 p-1 flex flex-col gap-y-8 ${
+                  index === 3 && "hidden"
+                } ${index === 4 && "md:max-lg:hidden"} ${
+                  index === 0 || index === 1 ? "" : "max-md:hidden"
+                }`}
+              >
+                {blogs.map((itemb) => (
+                  <div
+                    className={`${
+                      itemb.id === index || itemb.id === index + 5
+                        ? "md:flex"
+                        : "md:hidden"
+                    } ${
+                      itemb.id === index ||
+                      itemb.id === index + 3 ||
+                      itemb.id === index + 5
+                        ? "max-md:flex"
+                        : "max-md:hidden"
+                    } flex flex-col text-start bg-slate-100 rounded-md py-2`}
+                  >
+                    <Card
+                      img={itemb.img}
+                      name={itemb.name}
+                      text={itemb.description}
+                      blogger={itemb.blogger}
+                      key={itemb.id}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+        </>
+      </div>
+      <div className="w-full flex place-content-end py-4">
+        <Button cyan onClick={() => navigate("/all/blogs/all")}>
+          See more
+        </Button>
+      </div>
+    </div>
   );
 };
 
