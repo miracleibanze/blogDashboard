@@ -15,7 +15,7 @@ const Profile = () => {
             } bg-no-repeat bg-center bg-zinc-400`}
             style={{
               backgroundImage: `url(${
-                dummyUserObject.img ? dummyUserObject.img : userSvg
+                dummyUserObject.imgUrl ? dummyUserObject.imgUrl : userSvg
               })`,
             }}
           >

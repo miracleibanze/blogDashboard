@@ -106,7 +106,7 @@ const SignIn = () => {
         <input
           type="submit"
           value="Login"
-          className={`py-2 px-4 outline-none bg-color-1 lg:w-[25rem] md:w-[20rem] w-[15rem] ${
+          className={`text-slate-100 bg-zinc-800 py-2 px-4 outline-none bg-color-1 lg:w-[25rem] md:w-[20rem] w-[15rem] ${
             signUp ? "hidden" : "flex"
           }`}
           onClick={handleLogin}
@@ -121,12 +121,12 @@ const SignIn = () => {
             <input
               type="submit"
               value="Sign Up"
-              className="py-2 px-4 outline-none bg-color-1 lg:w-[25rem] md:w-[20rem] w-[15rem]"
+              className="text-slate-100 bg-zinc-800 py-2 px-4 outline-none  lg:w-[25rem] md:w-[20rem] w-[15rem]"
               onClick={handleLogin}
             />
           ) : (
             <button
-              className="py-2 px-4 outline-none border border-color-1 hover:bg-color-1 lg:w-[25rem] md:w-[20rem] w-[15rem]"
+              className="border border-zinc-800 text-zinc-800 py-2 px-4 lg:w-[25rem] md:w-[20rem] w-[15rem]"
               onClick={() => navigate("/sign_in/create-account")}
             >
               Sign Up
@@ -134,7 +134,7 @@ const SignIn = () => {
           )}
         </div>
         <button
-          className={`py-2 px-4 outline-none justify-center border border-color-1 hover:bg-color-1 ${
+          className={`border-zinc-800 text-zinc-800 py-2 px-4 outline-none justify-center border hover:bg-color-1 ${
             signUp ? "flex" : "hidden"
           }`}
           onClick={() => navigate("/sign_in/auth")}

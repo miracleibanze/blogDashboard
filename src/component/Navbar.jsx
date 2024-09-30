@@ -42,11 +42,11 @@ const Navbar = ({
           create a blog
         </Button>
         <div
-          className="bg-center bg-cover h-8 aspect-square rounded-full border"
+          className="bg-center bg-cover h-8 aspect-square rounded-full border bg-slate-50"
           style={{
-            backgroundImage: `url${
+            backgroundImage: `url(${
               dummyUserObject.imgUrl ? dummyUserObject.imgUrl : userSvg
-            }`,
+            })`,
           }}
           onClick={toggleMenu}
         />

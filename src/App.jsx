@@ -9,7 +9,13 @@ import {
 } from "react";
 import Navbar from "./component/Navbar";
 import Sidebar from "./component/Sidebar";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Preloader from "./component/designs/Preloader";
 import { blogs } from "./component/Constants";
 import Blogs from "./component/Blogs";
@@ -24,6 +30,7 @@ const NotFound = lazy(() => import("./component/NotFound"));
 export const AppContext = createContext();
 
 const App = () => {
+  const navigate = useNavigate();
   const location = useLocation().pathname;
   const [signUp, setSignUp] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
@@ -92,6 +99,7 @@ const App = () => {
       persistData(dummyUserObject);
       setIsLogged(true);
       alert("Account created successfully !");
+      navigate("/");
     } else if (
       !signUp &&
       formData.email === dummyUserObject.email &&
@@ -99,6 +107,7 @@ const App = () => {
     ) {
       alert("login successful!");
       setIsLogged(true);
+      navigate("/");
     } else {
       setInvalid(true);
       console.log(formData);
@@ -206,11 +215,17 @@ const App = () => {
               <Route exact path="/" element={<Hero />} />
               <Route path="/blogs/:blog" element={<Hero />} />
               <Route path="/all/blogs/:param" element={<Blogs />} />
-              <Route path="/profile" element={<Profile />} />
               <Route
-                path="/sign_in/:state"
-                element={!isLogged ? <SignIn /> : <Navigate replace to={"/"} />}
+                path="/profile"
+                element={
+                  dummyUserObject.names ? (
+                    <Profile />
+                  ) : (
+                    <Navigate replace to={"/sign_in/auth"} />
+                  )
+                }
               />
+              <Route path="/sign_in/:state" element={<SignIn />} />
               <Route element={<NotFound />} path="*" />
             </Routes>
           </AppContext.Provider>
